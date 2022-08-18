@@ -1,5 +1,6 @@
 ﻿using AuthService.Data.Models;
 using AuthService.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthService.Controllers
@@ -39,6 +40,7 @@ namespace AuthService.Controllers
         }
 
         [HttpPost("role/{roleName}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateRole(string roleName)
         {
             var result = await _userService.CreateRole(roleName);

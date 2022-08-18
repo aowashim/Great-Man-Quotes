@@ -7,5 +7,6 @@ namespace GMQ_Quotes.Services
         Task<List<Quote>?> GetAllQuotes();
         Task<Quote?> GetQuoteById(int id);
         Task<Quote?> AddQuote(Quote quote);
+        Task<Quote?> EditQuote(Quote quote);
     }
 }

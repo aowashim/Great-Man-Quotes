@@ -53,5 +53,26 @@ namespace GMQ_Quotes.Services
                 return null;
             }
         }
+
+        public async Task<Quote?> EditQuote(Quote quote)
+        {
+            try
+            {
+                Quote? quoteFromDB = await context.Quotes.FindAsync(quote.Id);
+                
+                if (quoteFromDB == null) return null;
+                
+                quoteFromDB.Title = quote.Title;
+                quoteFromDB.Author = quote.Author;
+
+                await context.SaveChangesAsync();
+
+                return quoteFromDB;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

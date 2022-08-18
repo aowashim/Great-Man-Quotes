@@ -1,5 +1,6 @@
 ﻿using GMQ_Quotes.Data.Models;
 using GMQ_Quotes.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,12 +34,22 @@ namespace GMQ_Quotes.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Quote>> AddQuote(Quote quote)
         {
             var res = await quoteService.AddQuote(quote);
 
             return res == null ? BadRequest() :
                 CreatedAtRoute(nameof(GetQuoteById), new { res.Id }, res);
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<Quote>> EditQuote(Quote quote)
+        {
+            var res = await quoteService.EditQuote(quote);
+
+            return res == null ? NotFound() : Ok(quote);
         }
     }
 }

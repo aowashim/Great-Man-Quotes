@@ -5,7 +5,7 @@ namespace AuthService.Data.Models
     public class SignIn
     {
         [Required]
-        public int EmpId { get; set; }
+        public string Username { get; set; } = string.Empty;
 
         [Required]
         public string Password { get; set; } = string.Empty;
