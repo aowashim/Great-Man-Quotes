@@ -74,5 +74,24 @@ namespace GMQ_Quotes.Services
                 return null;
             }
         }
+
+        public async Task<bool> DeleteQuote(int id)
+        {
+            try
+            {
+                Quote? quoteFromDB = await context.Quotes.FindAsync(id);
+
+                if (quoteFromDB == null) return false;
+
+                context.Quotes.Remove(quoteFromDB);
+                await context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

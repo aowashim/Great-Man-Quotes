@@ -22,8 +22,8 @@ namespace GMQ_Quotes.Services
             {
                 string un = GetUsername()!;
 
-                var user = await context.Users.Include(x => x.Bookmarks).Where(u => u.Username == un).ToListAsync();
-                List<Bookmark> bookmarks = user[0].Bookmarks;
+                User user = context.Users.Include(x => x.Bookmarks).Single(u => u.Username == un);
+                List<Bookmark> bookmarks = user.Bookmarks;
 
                 List<Quote> quotes = await context.Quotes.ToListAsync();
                 List<Quote> res = quotes.Join(bookmarks, q => q.Id, b => b.QuoteId, (q, b) => q)
@@ -50,6 +50,30 @@ namespace GMQ_Quotes.Services
 
                 user?.Bookmarks.Add(bookmark);
                 quote?.Bookmarks.Add(bookmark);
+
+                await context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteBookmark(int id)
+        {
+            try
+            {
+                string un = GetUsername()!;
+
+                User user = context.Users.Include(u => u.Bookmarks).Single(u => u.Username == un);
+                Quote quote = context.Quotes.Include(q => q.Bookmarks).Single(q => q.Id == id);
+                
+                Bookmark bookmark = user.Bookmarks.Single(b => b.UserUsername == un && b.QuoteId == id);
+
+                user.Bookmarks.Remove(bookmark);
+                quote.Bookmarks.Remove(bookmark);
 
                 await context.SaveChangesAsync();
 

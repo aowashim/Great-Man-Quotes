@@ -8,5 +8,6 @@ namespace GMQ_Quotes.Services
         Task<Quote?> GetQuoteById(int id);
         Task<Quote?> AddQuote(Quote quote);
         Task<Quote?> EditQuote(Quote quote);
+        Task<bool> DeleteQuote(int id);
     }
 }

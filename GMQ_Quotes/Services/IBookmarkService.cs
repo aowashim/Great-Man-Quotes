@@ -6,5 +6,6 @@ namespace GMQ_Quotes.Services
     {
         Task<List<Quote>?> GetAllBookmarks();
         Task<bool> CreateBookmark(int id);
+        Task<bool> DeleteBookmark(int id);
     }
 }

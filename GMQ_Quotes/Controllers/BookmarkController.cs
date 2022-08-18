@@ -34,6 +34,15 @@ namespace GMQ_Quotes.Controllers
 
             return res ? Ok() : BadRequest();
         }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> DeleteBookmark(int id)
+        {
+            var res = await bookmarkService.DeleteBookmark(id);
+
+            return res ? Ok() : BadRequest();
+        }
     }
 }
 

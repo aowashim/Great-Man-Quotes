@@ -51,5 +51,14 @@ namespace GMQ_Quotes.Controllers
 
             return res == null ? NotFound() : Ok(quote);
         }
+        
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteQuote(int id)
+        {
+            var res = await quoteService.DeleteQuote(id);
+
+            return res ? Ok() : BadRequest();
+        }
     }
 }
