@@ -35,6 +35,7 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
 
 // cors
 builder.Services.AddCors(options =>

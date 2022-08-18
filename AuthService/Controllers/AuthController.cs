@@ -9,10 +9,12 @@ namespace AuthService.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IRabbitMQService rabbitMQService;
 
-        public AuthController(IUserService userService)
+        public AuthController(IUserService userService, IRabbitMQService rabbitMQService)
         {
             _userService = userService;
+            this.rabbitMQService = rabbitMQService;
         }
 
         [HttpPost("signup")]
@@ -20,7 +22,12 @@ namespace AuthService.Controllers
         {
             var result = await _userService.SignUpAsync(signUpModel);
 
-            return result.Succeeded ? Ok(result) : BadRequest(result);
+            if (result.Succeeded)
+            {
+                rabbitMQService.PublishUser(signUpModel);
+                return Ok(result);
+            }
+            else return BadRequest(result);
         }
 
         [HttpPost("login")]

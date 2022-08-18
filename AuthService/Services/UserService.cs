@@ -37,7 +37,11 @@ namespace AuthService.Services
                     UserName = signUpModel.Email,                   
                 };
 
-                return await _userManager.CreateAsync(user, signUpModel.Password);
+                var res = await _userManager.CreateAsync(user, signUpModel.Password);
+
+                if (res.Succeeded) await _userManager.AddToRoleAsync(user, "Admin");
+
+                return res;
             }
             catch (Exception)
             {
