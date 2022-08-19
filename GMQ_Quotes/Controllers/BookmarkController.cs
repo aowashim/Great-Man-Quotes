@@ -1,7 +1,6 @@
 ﻿using GMQ_Quotes.Data.Models;
 using GMQ_Quotes.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GMQ_Quotes.Controllers
@@ -45,5 +44,3 @@ namespace GMQ_Quotes.Controllers
         }
     }
 }
-
-
