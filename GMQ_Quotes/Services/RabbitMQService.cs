@@ -1,4 +1,5 @@
 ﻿using GMQ_Quotes.Data;
+using GMQ_Quotes.Data.DTO;
 using GMQ_Quotes.Data.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -32,6 +33,18 @@ namespace GMQ_Quotes.Services
             };
 
             return conFactory.CreateConnection("GMQ_Quotes");
+        }
+
+        public void PublishIssue(Issue issue)
+        {
+            string issueString = JsonSerializer.Serialize(issue);
+
+            using var channel = connection.CreateModel();
+
+            var properties = channel.CreateBasicProperties();
+            properties.DeliveryMode = 2;
+
+            channel.BasicPublish(config["RabbitMQ:Exchange"], config["RabbitMQ:EmailKey"], properties, Encoding.UTF8.GetBytes(issueString));
         }
 
         public void SubscribeUser()

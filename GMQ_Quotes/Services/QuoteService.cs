@@ -1,4 +1,5 @@
 ﻿using GMQ_Quotes.Data;
+using GMQ_Quotes.Data.DTO;
 using GMQ_Quotes.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,10 +8,12 @@ namespace GMQ_Quotes.Services
     public class QuoteService : IQuoteService
     {
         private readonly AppDbContext context;
+        private readonly IRabbitMQService rabbitMQService;
 
-        public QuoteService(AppDbContext context)
+        public QuoteService(AppDbContext context, IRabbitMQService rabbitMQService)
         {
             this.context = context;
+            this.rabbitMQService = rabbitMQService;
         }
 
         public async Task<Quote?> AddQuote(Quote quote)
@@ -92,6 +95,11 @@ namespace GMQ_Quotes.Services
             {
                 return false;
             }
+        }
+
+        public void RaiseIssue(Issue issue)
+        {
+            rabbitMQService.PublishIssue(issue);
         }
     }
 }

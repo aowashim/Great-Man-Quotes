@@ -1,4 +1,5 @@
-﻿using GMQ_Quotes.Data.Models;
+﻿using GMQ_Quotes.Data.DTO;
+using GMQ_Quotes.Data.Models;
 using GMQ_Quotes.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -51,7 +52,7 @@ namespace GMQ_Quotes.Controllers
 
             return res == null ? NotFound() : Ok(quote);
         }
-        
+
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteQuote(int id)
@@ -59,6 +60,15 @@ namespace GMQ_Quotes.Controllers
             var res = await quoteService.DeleteQuote(id);
 
             return res ? Ok() : BadRequest();
+        }
+
+        [HttpPost("issue")]
+        [Authorize(Roles = "User")]
+        public IActionResult RaiseIssue(Issue issue)
+        {
+            quoteService.RaiseIssue(issue);
+
+            return Ok();
         }
     }
 }
