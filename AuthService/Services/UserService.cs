@@ -1,4 +1,5 @@
-﻿using AuthService.Data.Models;
+﻿using AuthService.Data.DTO;
+using AuthService.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -46,7 +47,7 @@ namespace AuthService.Services
             }
         }
 
-        public async Task<string?> LoginAsync(SignIn signModel)
+        public async Task<LoginReturn?> LoginAsync(SignIn signModel)
         {
             try
             {
@@ -71,7 +72,9 @@ namespace AuthService.Services
                     signingCredentials: new SigningCredentials(authSignInKey, SecurityAlgorithms.HmacSha256Signature)
                     );
 
-                return new JwtSecurityTokenHandler().WriteToken(token);
+                string res = new JwtSecurityTokenHandler().WriteToken(token);
+
+                return new LoginReturn { Token = res, Type = role[0] };
             }
             catch (Exception)
             {
