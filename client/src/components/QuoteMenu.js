@@ -38,7 +38,14 @@ function QuoteMenu(props) {
           </div>
         ) : (
           <div>
-            <MenuItem onClick={handleClose}>Delete quote</MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleClose()
+                props.handleDeleteQuote(props.id, props.idx)
+              }}
+            >
+              Delete quote
+            </MenuItem>
             <MenuItem onClick={handleClose}>Edit qoute</MenuItem>
           </div>
         )}

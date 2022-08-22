@@ -13,5 +13,4 @@ export const configAxios = () => {
 }
 
 export const sesExpMsg = 'Your session has expired, please login again...'
-
-export const userInfo = { token: '', type: '' }
+export const errMsg = 'An error occured, please try again...'

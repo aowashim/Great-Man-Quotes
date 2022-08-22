@@ -3,27 +3,11 @@ import { configAxios } from '../constant'
 
 const server = process.env.REACT_APP_SERVER_QUOTE
 
-export const postOfferApi = async (values, category_Id, emp_Id) => {
+export const getAllQuotes = async () => {
   const res = { data: '', status: 200 }
 
-  const sd = new Date(values.startDate)
-  const start_Date = sd.toJSON()
-
-  const ed = new Date(values.endDate)
-  const end_Date = ed.toJSON()
-
-  const jsonData = {
-    title: values.title,
-    description: values.description,
-    n_Likes: 0,
-    start_Date,
-    end_Date,
-    category_Id,
-    emp_Id: parseInt(emp_Id),
-  }
-
   try {
-    const val = await axios.post(`${server}/addOffer`, jsonData, configAxios())
+    const val = await axios.get(`${server}/Quotes`, configAxios())
 
     res.data = val.data
     res.status = val.status
@@ -35,11 +19,11 @@ export const postOfferApi = async (values, category_Id, emp_Id) => {
   return res
 }
 
-export const getAllQuotes = async () => {
+export const deleteQuote = async qId => {
   const res = { data: '', status: 200 }
 
   try {
-    const val = await axios.get(`${server}/Quotes`, configAxios())
+    const val = await axios.delete(`${server}/Quotes/${qId}`, configAxios())
 
     res.data = val.data
     res.status = val.status

@@ -10,12 +10,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { getAllQuotes } from '../helpers/API/quote'
+import { deleteQuote, getAllQuotes } from '../helpers/API/quote'
 import Loading from '../components/Loading'
 import { Toolbar } from '@material-ui/core'
 import UserContext from '../store/UserContext'
 import Pagination from '@material-ui/lab/Pagination'
-import { appCardColor, sesExpMsg } from '../helpers/constant'
+import { appCardColor, errMsg, sesExpMsg } from '../helpers/constant'
 import useLogout from '../helpers/hooks/useLogout'
 import { addToBookmark } from '../helpers/API/bookmark'
 import QuoteMenu from '../components/QuoteMenu'
@@ -88,7 +88,7 @@ export default function Quotes(props) {
     toast.error(msg, { position: toast.POSITION.TOP_CENTER })
 
   const notifySuccess = msg =>
-    toast.success(msg, { position: toast.POSITION.TOP_CENTER, autoClose: 2000 })
+    toast.success(msg, { position: toast.POSITION.TOP_CENTER })
 
   const handleChange = (event, value) => {
     setIsLoaded(false)
@@ -149,6 +149,21 @@ export default function Quotes(props) {
     }
   }
 
+  const handleDeleteQuote = async (qId, idx) => {
+    const res = await deleteQuote(qId)
+
+    if (res.status === 200) {
+      data.current.splice(idx, 1)
+      setRefresh(!refresh)
+      notifySuccess('Quote deleted successfully')
+    } else if (res.status === 401) {
+      handleLogout()
+      notifyError(sesExpMsg)
+    } else {
+      notifyError(errMsg)
+    }
+  }
+
   return user.token ? (
     <>
       <NavBar path={pathname} />
@@ -161,7 +176,7 @@ export default function Quotes(props) {
             maxWidth='md'
           >
             <Grid container spacing={3}>
-              {data.current.map(val => (
+              {data.current.map((val, idx) => (
                 <Grid item key={val.id} xs={12}>
                   <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
@@ -198,8 +213,10 @@ export default function Quotes(props) {
                         <div style={{ marginLeft: 10 }}>
                           <QuoteMenu
                             id={val.id}
+                            idx={idx}
                             userType={user.type}
                             handleAddToBookmark={handleAddToBookmark}
+                            handleDeleteQuote={handleDeleteQuote}
                           />
                         </div>
                       </div>

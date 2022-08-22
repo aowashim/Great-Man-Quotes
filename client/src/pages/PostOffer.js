@@ -18,7 +18,7 @@ import NavBar from '../components/NavBar'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import UserContext from '../store/UserContext'
-import { postOfferApi } from '../helpers/API/quote'
+// import { postOfferApi } from '../helpers/API/quote'
 import { appBackground, sesExpMsg } from '../helpers/constant'
 import useLogout from '../helpers/hooks/useLogout'
 
@@ -85,17 +85,17 @@ export default function PostOffer(props) {
 
   const handlePostOffer = async values => {
     setIsPosting(true)
-    const res = await postOfferApi(values, category, user.id)
+    // const res = await postOfferApi(values, category, user.id)
 
-    if (res.status === 200) {
-      notifySuccess('Offer posted successfully, Opening offer details page...')
-      navigate(`/offer/${res.data}`)
-    } else if (res.status === 401) {
-      handleLogout()
-      notifyError(sesExpMsg)
-    } else {
-      notifyError('An error occurred, please try again...')
-    }
+    // if (res.status === 200) {
+    //   notifySuccess('Offer posted successfully, Opening offer details page...')
+    //   navigate(`/offer/${res.data}`)
+    // } else if (res.status === 401) {
+    //   handleLogout()
+    //   notifyError(sesExpMsg)
+    // } else {
+    //   notifyError('An error occurred, please try again...')
+    // }
 
     setIsPosting(false)
   }

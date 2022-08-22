@@ -73,7 +73,7 @@ export default function SignIn() {
     toast.error(msg, { position: toast.POSITION.TOP_CENTER })
 
   const notifySuccess = msg =>
-    toast.success(msg, { position: toast.POSITION.TOP_CENTER, autoClose: 2000 })
+    toast.success(msg, { position: toast.POSITION.TOP_CENTER })
 
   // this handles sign in by calling the signin api
   const handleSignIn = async values => {
@@ -90,7 +90,7 @@ export default function SignIn() {
 
       navigate('/quotes')
     } else {
-      notifyError('Invalid Employee Id or Password')
+      notifyError('Invalid Username or Password')
     }
 
     setSigningIn(false)
