@@ -19,7 +19,7 @@ namespace GMQ_Quotes.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Quote>>> GetAllQuotes()
+        public async Task<IActionResult> GetAllQuotes()
         {
             var res = await quoteService.GetAllQuotes();
 

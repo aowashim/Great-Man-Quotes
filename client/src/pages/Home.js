@@ -142,7 +142,7 @@ export default function Home() {
             style={{
               fontWeight: 'bold',
               textAlign: 'center',
-              fontStyle: 'italic',
+              // fontStyle: 'italic',
             }}
             variant='h6'
             gutterBottom
