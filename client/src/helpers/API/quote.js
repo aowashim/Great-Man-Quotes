@@ -35,6 +35,38 @@ export const deleteQuote = async qId => {
   return res
 }
 
+export const addQuote = async values => {
+  const res = { data: '', status: 200 }
+
+  try {
+    const val = await axios.post(`${server}/Quotes`, values, configAxios())
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  return res
+}
+
+export const editQuote = async values => {
+  const res = { data: '', status: 200 }
+
+  try {
+    const val = await axios.put(`${server}/Quotes`, values, configAxios())
+
+    res.data = val.data
+    res.status = val.status
+  } catch (error) {
+    res.data = error.message
+    res.status = error.response.status
+  }
+
+  return res
+}
+
 export const getOfferDetailsApi = async id => {
   const res = { data: '', status: 200 }
 
@@ -52,40 +84,6 @@ export const getOfferDetailsApi = async id => {
   }
 
   console.log(res)
-
-  return res
-}
-
-export const editOfferApi = async (values, category_Id, offerId) => {
-  const res = { data: '', status: 200 }
-
-  const sd = new Date(values.startDate)
-  const start_Date = sd.toJSON()
-
-  const ed = new Date(values.endDate)
-  const end_Date = ed.toJSON()
-
-  const jsonData = {
-    title: values.title,
-    description: values.description,
-    start_Date,
-    end_Date,
-    category_Id,
-  }
-
-  try {
-    const val = await axios.post(
-      `${server}/editOffer?id=${offerId}`,
-      jsonData,
-      configAxios()
-    )
-
-    res.data = val.data
-    res.status = val.status
-  } catch (error) {
-    res.data = error.message
-    res.status = error.response.status
-  }
 
   return res
 }

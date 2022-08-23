@@ -32,24 +32,9 @@ export const signInValidation = yup.object({
     ),
 })
 
-export const postOfferValidation = yup.object({
-  title: yup.string().required('Title is required').max(50),
-  description: yup.string().required('Description is required').max(200),
-  startDate: yup
-    .string()
-    .matches(
-      /^(0?[1-9]|1[0-2])\/(0?[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/,
-      'Please enter date in mm/dd/yyyy format'
-    )
-    .required('Start Date is required'),
-  endDate: yup
-    .string()
-    .matches(
-      /^(0?[1-9]|1[0-2])\/(0?[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/,
-      'Please enter date in mm/dd/yyyy format'
-    )
-    .required('End Date is required'),
-  // category: yup.string().required('Category is required'),
+export const addQuoteValidation = yup.object({
+  title: yup.string().required('Title is required').max(250),
+  author: yup.string().required('Author is required').max(30),
 })
 
 export const postCommentValidation = yup.object({

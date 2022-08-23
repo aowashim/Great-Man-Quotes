@@ -17,7 +17,11 @@ import UserContext from '../store/UserContext'
 import Pagination from '@material-ui/lab/Pagination'
 import { appCardColor, errMsg, sesExpMsg } from '../helpers/constant'
 import useLogout from '../helpers/hooks/useLogout'
-import { addToBookmark } from '../helpers/API/bookmark'
+import {
+  addToBookmark,
+  deleteBookmark,
+  getBookmarks,
+} from '../helpers/API/bookmark'
 import QuoteMenu from '../components/QuoteMenu'
 
 const useStyles = makeStyles(theme => ({
@@ -40,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 const dataPerPage = 6
 
 toast.configure()
-export default function Quotes(props) {
+export default function Bookmarks(props) {
   const classes = useStyles()
 
   const [isLoaded, setIsLoaded] = useState(false)
@@ -56,7 +60,7 @@ export default function Quotes(props) {
 
   useEffect(() => {
     if (user.token) {
-      handleGetQuotes()
+      handleGetBookmarks()
     }
   }, [])
 
@@ -86,8 +90,8 @@ export default function Quotes(props) {
     setIsLoaded(true)
   }
 
-  const handleGetQuotes = async () => {
-    const res = await getAllQuotes()
+  const handleGetBookmarks = async () => {
+    const res = await getBookmarks()
 
     if (res.status === 200) {
       data.current = []
@@ -100,25 +104,12 @@ export default function Quotes(props) {
       handleLogout()
       notifyError(sesExpMsg)
     } else {
-      notifyError('An error occurred, please try again...')
+      notifyError(errMsg)
     }
   }
 
-  const handleAddToBookmark = async qId => {
-    const res = await addToBookmark(qId)
-
-    if (res.status === 200) {
-      notifySuccess('Added to bookmark successfully')
-    } else if (res.status === 401) {
-      handleLogout()
-      notifyError(sesExpMsg)
-    } else {
-      notifyError('Qoute already in your bookmark')
-    }
-  }
-
-  const handleDeleteQuote = async (qId, idx) => {
-    const res = await deleteQuote(qId)
+  const handleRemoveBookmark = async (qId, idx) => {
+    const res = await deleteBookmark(qId)
 
     if (res.status === 200) {
       data.current = data.current.filter(item => item.id !== qId)
@@ -128,7 +119,7 @@ export default function Quotes(props) {
       items.current.splice(idx, 1)
 
       setRefresh(!refresh)
-      notifySuccess('Quote deleted successfully')
+      notifySuccess('Bookmark removed successfully')
     } else if (res.status === 401) {
       handleLogout()
       notifyError(sesExpMsg)
@@ -185,12 +176,10 @@ export default function Quotes(props) {
 
                         <div style={{ marginLeft: 10 }}>
                           <QuoteMenu
-                            bmPage={false}
+                            bmPage={true}
                             val={val}
                             idx={idx}
-                            userType={user.type}
-                            handleAddToBookmark={handleAddToBookmark}
-                            handleDeleteQuote={handleDeleteQuote}
+                            handleRemoveBookmark={handleRemoveBookmark}
                           />
                         </div>
                       </div>

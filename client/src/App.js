@@ -2,15 +2,14 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { createTheme, CssBaseline, ThemeProvider } from '@material-ui/core'
-import PostOffer from './pages/PostOffer'
-import Profile from './pages/Profile'
 import UserContext from './store/UserContext'
 import { useEffect, useMemo, useState } from 'react'
-import Offer from './pages/Offer'
 import Loading from './components/Loading'
-import EditOffer from './pages/EditOffer'
 import Home from './pages/Home'
 import Quotes from './pages/Quotes'
+import AddQuote from './pages/AddQuote'
+import EditQuote from './pages/EditQuote'
+import Bookmarks from './pages/Bookmarks'
 
 const theme = createTheme({
   palette: {
@@ -60,10 +59,9 @@ function App() {
                 <Route path='quotes' element={<Quotes />} />
                 <Route path='signin' element={<SignIn />} />
                 <Route path='signup' element={<SignUp />} />
-                <Route path='postoffer' element={<PostOffer />} />
-                <Route path='profile' element={<Profile />} />
-                <Route path='offer/:id' element={<Offer />} />
-                <Route path='edit/:id' element={<EditOffer />} />
+                <Route path='add' element={<AddQuote />} />
+                <Route path='bookmarks' element={<Bookmarks />} />
+                <Route path='edit/:id' element={<EditQuote />} />
               </Routes>
             </UserContext.Provider>
           </BrowserRouter>
