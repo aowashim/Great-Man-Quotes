@@ -9,14 +9,14 @@ import {
   Typography,
 } from '@material-ui/core'
 import { useFormik } from 'formik'
-import { addQuoteValidation } from '../helpers/yupValidation'
+import { issueValidation } from '../helpers/yupValidation'
 import NavBar from '../components/NavBar'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import UserContext from '../store/UserContext'
 import { errMsg, sesExpMsg } from '../helpers/constant'
 import useLogout from '../helpers/hooks/useLogout'
-import { addQuote } from '../helpers/API/quote'
+import { addQuote, raiseIssue } from '../helpers/API/quote'
 import MyCard from '../components/MyCard'
 import CenterElement from '../components/CenterElement'
 import useDocTitle from '../helpers/hooks/useDocTitle'
@@ -38,27 +38,27 @@ const useStyles = makeStyles(theme => ({
 }))
 
 toast.configure()
-export default function AddQuote(props) {
+export default function Issue(props) {
   const classes = useStyles()
   const { pathname } = useLocation()
   const { user } = useContext(UserContext)
-  const navigate = useNavigate()
   const handleLogout = useLogout()
   const [isPosting, setIsPosting] = useState(false)
   const changeTitle = useDocTitle()
 
   useEffect(() => {
-    changeTitle('Add Quote')
+    changeTitle('Raise Issue')
   }, [])
 
   const formik = useFormik({
     initialValues: {
-      title: '',
-      author: '',
+      email: '',
+      subject: '',
+      body: '',
     },
-    validationSchema: addQuoteValidation,
+    validationSchema: issueValidation,
     onSubmit: (values, { resetForm }) => {
-      handleAddQuote(values, resetForm)
+      handleRaiseIssue(values, resetForm)
     },
   })
 
@@ -68,13 +68,15 @@ export default function AddQuote(props) {
   const notifySuccess = msg =>
     toast.success(msg, { position: toast.POSITION.TOP_CENTER })
 
-  const handleAddQuote = async (values, resetForm) => {
+  const handleRaiseIssue = async (values, resetForm) => {
     setIsPosting(true)
 
-    const res = await addQuote(values)
+    const res = await raiseIssue(values)
 
-    if (res.status === 201) {
-      notifySuccess('Quote added successfully')
+    if (res.status === 200) {
+      notifySuccess(
+        `Issue raised successfully, you will soon receive a confirmation email`
+      )
       resetForm()
     } else if (res.status === 401) {
       handleLogout()
@@ -95,7 +97,7 @@ export default function AddQuote(props) {
           <MyCard>
             <div className={classes.paper}>
               <Typography component='h5' variant='h5'>
-                Add Quote
+                Raise Issue
               </Typography>
 
               <div style={{ width: '100%' }}>
@@ -104,28 +106,41 @@ export default function AddQuote(props) {
                     variant='outlined'
                     fullWidth
                     margin='normal'
-                    id='title'
-                    name='title'
-                    label='Title'
-                    value={formik.values.title}
+                    id='email'
+                    name='email'
+                    label='Your Email'
+                    value={formik.values.email}
                     onChange={formik.handleChange}
-                    error={formik.touched.title && Boolean(formik.errors.title)}
-                    helperText={formik.touched.title && formik.errors.title}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
                   />
 
                   <TextField
                     variant='outlined'
                     fullWidth
                     margin='normal'
-                    id='author'
-                    name='author'
-                    label='Author'
-                    value={formik.values.author}
+                    id='subject'
+                    name='subject'
+                    label='Title'
+                    value={formik.values.subject}
                     onChange={formik.handleChange}
                     error={
-                      formik.touched.author && Boolean(formik.errors.author)
+                      formik.touched.subject && Boolean(formik.errors.subject)
                     }
-                    helperText={formik.touched.author && formik.errors.author}
+                    helperText={formik.touched.subject && formik.errors.subject}
+                  />
+
+                  <TextField
+                    variant='outlined'
+                    fullWidth
+                    margin='normal'
+                    id='body'
+                    name='body'
+                    label='Description'
+                    value={formik.values.body}
+                    onChange={formik.handleChange}
+                    error={formik.touched.body && Boolean(formik.errors.body)}
+                    helperText={formik.touched.body && formik.errors.body}
                   />
 
                   <Button

@@ -19,6 +19,7 @@ import { appCardColor, errMsg, sesExpMsg } from '../helpers/constant'
 import useLogout from '../helpers/hooks/useLogout'
 import { addToBookmark } from '../helpers/API/bookmark'
 import QuoteMenu from '../components/QuoteMenu'
+import useDocTitle from '../helpers/hooks/useDocTitle'
 
 const useStyles = makeStyles(theme => ({
   cardGrid: {
@@ -51,10 +52,12 @@ export default function Quotes(props) {
   const [page, setPage] = useState(1)
   const [refresh, setRefresh] = useState(false)
   const handleLogout = useLogout()
+  const changeTitle = useDocTitle()
 
   const { pathname } = useLocation()
 
   useEffect(() => {
+    changeTitle('Quotes')
     if (user.token) {
       handleGetQuotes()
     }

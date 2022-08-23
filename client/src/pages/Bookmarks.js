@@ -23,6 +23,7 @@ import {
   getBookmarks,
 } from '../helpers/API/bookmark'
 import QuoteMenu from '../components/QuoteMenu'
+import useDocTitle from '../helpers/hooks/useDocTitle'
 
 const useStyles = makeStyles(theme => ({
   cardGrid: {
@@ -55,10 +56,12 @@ export default function Bookmarks(props) {
   const [page, setPage] = useState(1)
   const [refresh, setRefresh] = useState(false)
   const handleLogout = useLogout()
+  const changeTitle = useDocTitle()
 
   const { pathname } = useLocation()
 
   useEffect(() => {
+    changeTitle('My Bookmarks')
     if (user.token) {
       handleGetBookmarks()
     }

@@ -67,77 +67,13 @@ export const editQuote = async values => {
   return res
 }
 
-export const getOfferDetailsApi = async id => {
-  const res = { data: '', status: 200 }
-
-  try {
-    const val = await axios.get(
-      `${server}/getOfferDetails/${id}`,
-      configAxios()
-    )
-
-    res.data = val.data
-    res.status = val.status
-  } catch (error) {
-    res.data = error.message
-    res.status = error.response.status
-  }
-
-  console.log(res)
-
-  return res
-}
-
-export const postCommentApi = async (content, user_Id, offer_Id) => {
-  const res = { data: '', status: 200 }
-
-  user_Id = parseInt(user_Id)
-  offer_Id = parseInt(offer_Id)
-
-  try {
-    const val = await axios.post(
-      `${server}/comment`,
-      {
-        content,
-        user_Id,
-        offer_Id,
-      },
-      configAxios()
-    )
-
-    res.data = val.data
-    res.status = val.status
-  } catch (error) {
-    res.data = error.message
-    res.status = error.response.status
-  }
-
-  return res
-}
-
-export const getCommentsApi = async id => {
-  const res = { data: '', status: 200 }
-
-  try {
-    const val = await axios.get(`${server}/comments/${id}`, configAxios())
-
-    res.data = val.data
-    res.status = val.status
-  } catch (error) {
-    res.data = error.message
-    res.status = error.response.status
-  }
-
-  return res
-}
-
-export const likeOfferApi = async (empId, ofId) => {
+export const raiseIssue = async values => {
   const res = { data: '', status: 200 }
 
   try {
     const val = await axios.post(
-      `${server}/engageOffer?Id=${ofId}&Emp_Id=${empId}`,
-      {},
+      `${server}/Quotes/issue`,
+      values,
       configAxios()
     )
 

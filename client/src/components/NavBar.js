@@ -17,7 +17,6 @@ export default function NavBar({ path }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const { user } = useContext(UserContext)
   const handleLogout = useLogout()
-  const { pathname } = useLocation()
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -25,11 +24,6 @@ export default function NavBar({ path }) {
 
   const handleClose = () => {
     setAnchorEl(null)
-  }
-
-  const goToOffers = () => {
-    path = pathname
-    handleNavigate('/offers')
   }
 
   const handleNavigate = curPath => {
@@ -44,13 +38,6 @@ export default function NavBar({ path }) {
     <div>
       <AppBar position='fixed'>
         <Toolbar style={{ justifyContent: 'space-between', height: '70px' }}>
-          {/* <div
-              style={{
-                display: 'flex',
-                //flexDirection: 'column',
-                //padding: 5,
-              }}
-            > */}
           <Typography variant='h6'>Great Man Quotes</Typography>
           <div className='cor'>
             <IconButton
@@ -60,7 +47,6 @@ export default function NavBar({ path }) {
               aria-label='menu'
             >
               <MenuIcon />
-              {/* <AccountCircleIcon /> */}
             </IconButton>
           </div>
 
@@ -86,9 +72,14 @@ export default function NavBar({ path }) {
               Quotes
             </MenuItem>
             {user.type !== 'Admin' ? (
-              <MenuItem onClick={() => handleNavigate('/bookmarks')}>
-                Bookmarks
-              </MenuItem>
+              <div>
+                <MenuItem onClick={() => handleNavigate('/bookmarks')}>
+                  Bookmarks
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigate('/issue')}>
+                  Raise Issue
+                </MenuItem>
+              </div>
             ) : (
               <MenuItem onClick={() => handleNavigate('/add')}>
                 Add Quote

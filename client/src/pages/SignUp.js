@@ -15,10 +15,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import NavBar from '../components/NavBar'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { signUpApi } from '../helpers/API/auth'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import MyCard from '../components/MyCard'
 import CenterElement from '../components/CenterElement'
 import UserContext from '../store/UserContext'
+import useDocTitle from '../helpers/hooks/useDocTitle'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -47,6 +48,11 @@ export default function SignUp(props) {
   const navigate = useNavigate()
   const [isSigningUp, setIsSigningUp] = useState(false)
   const { user } = useContext(UserContext)
+  const changeTitle = useDocTitle()
+
+  useEffect(() => {
+    changeTitle('Sign Up')
+  }, [])
 
   const formik = useFormik({
     initialValues: {

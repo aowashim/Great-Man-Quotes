@@ -37,6 +37,14 @@ export const addQuoteValidation = yup.object({
   author: yup.string().required('Author is required').max(30),
 })
 
-export const postCommentValidation = yup.object({
-  comment: yup.string().required('Comment is required').max(100),
+export const issueValidation = yup.object({
+  email: yup.string().email(emailValidTxt).required('Email is required'),
+  subject: yup
+    .string()
+    .required('Title is required')
+    .max(50, 'Title must be at most 50 characters'),
+  body: yup
+    .string()
+    .required('Description is required')
+    .max(500, 'Description must be at most 500 characters'),
 })

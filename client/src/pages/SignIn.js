@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Avatar from '@material-ui/core/Avatar'
@@ -18,6 +18,7 @@ import { signInApi } from '../helpers/API/auth'
 import UserContext from '../store/UserContext'
 import CenterElement from '../components/CenterElement'
 import MyCard from '../components/MyCard'
+import useDocTitle from '../helpers/hooks/useDocTitle'
 
 function Copyright() {
   return (
@@ -57,6 +58,11 @@ export default function SignIn() {
   const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
   const [signingIn, setSigningIn] = useState(false)
+  const changeTitle = useDocTitle()
+
+  useEffect(() => {
+    changeTitle('Sign In')
+  }, [])
 
   const formik = useFormik({
     initialValues: {

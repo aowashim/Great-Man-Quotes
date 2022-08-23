@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core'
 import { Navigate, useNavigate } from 'react-router-dom'
 import UserContext from '../store/UserContext'
+import useDocTitle from '../helpers/hooks/useDocTitle'
 
 let theme = createTheme()
 theme = responsiveFontSizes(theme)
@@ -39,16 +40,16 @@ const useStyles = makeStyles(theme => ({
     height: '80vh',
   },
   image: {
-    animation: 'fadeIn 2s ease-in-out infinite',
-    height: '70vh',
+    // animation: 'fadeIn 2s ease-in-out infinite',
+    height: '75vh',
     // backgroundColor: theme.palette.secondary.main,
-    backgroundImage: 'url(/Image/banner.png)',
+    backgroundImage: 'url(homePageImage.png)',
     backgroundRepeat: 'no-repeat',
     // backgroundColor:
     //   theme.palette.type === "light"
     //     ? theme.palette.grey[50]
     //     : theme.palette.grey[900],
-    backgroundSize: '80%',
+    backgroundSize: '70%',
     backgroundPosition: 'center',
   },
   paper: {
@@ -88,19 +89,18 @@ export default function Home() {
   const classes = useStyles()
   const navigate = useNavigate()
   const { user } = useContext(UserContext)
+  const changeTitle = useDocTitle()
+
+  useEffect(() => {
+    changeTitle('Great Man Quotes')
+  }, [])
 
   return !user.token ? (
     <>
       <div className='home-nav'>
-        <AppBar
-          className='nav-bar'
-          position='static'
-          style={{ background: '#b69bff' }}
-        >
+        <AppBar className='nav-bar' position='static'>
           <Toolbar className={classes.toolbar}>
-            <Typography variant='title' component='h6'>
-              <img src='/LogoComplete.png' alt='logo' height={60} />
-            </Typography>
+            <Typography variant='h6'>Great Man Quotes</Typography>
           </Toolbar>
         </AppBar>
       </div>
@@ -125,46 +125,49 @@ export default function Home() {
           style={{ height: '80vh' }}
           elevation={6}
         >
-          <MuiThemeProvider theme={theme}>
-            <Typography
-              style={{
-                color: '#8363DA',
-                fontWeight: 800,
-                textAlign: 'center',
-                paddingTop: '5vw',
-              }}
-              variant='h1'
-              // component='h1'
-              gutterBottom
-            >
-              CORPORATE CLASSIFIEDS
-            </Typography>
-            <Typography
-              style={{ fontWeight: 400, textAlign: 'center' }}
-              variant='h5'
-              gutterBottom
-            >
-              BUY AND SELL AT FINGERTIPS
-            </Typography>
+          <Typography
+            style={{
+              // color: '#8363DA',
+              fontWeight: 800,
+              textAlign: 'center',
+              paddingTop: '4vw',
+            }}
+            variant='h1'
+            // component='h1'
+            gutterBottom
+          >
+            GREAT MAN QUOTES
+          </Typography>
+          <Typography
+            style={{
+              fontWeight: 'bold',
+              textAlign: 'center',
+              fontStyle: 'italic',
+            }}
+            variant='h6'
+            gutterBottom
+          >
+            Find all your favourite quotes at one place
+          </Typography>
 
-            <Grid container justify='center'>
-              <Button
-                style={{
-                  // textTransform: 'none',
-                  // padding: '1rem 3rem',
-                  // textAlign: 'Center',
-                  marginTop: 20,
-                }}
-                size='large'
-                // variant="contained"
-                variant='outlined'
-                color='secondary'
-                onClick={() => navigate('/signin')}
-              >
-                Sign in
-              </Button>
-            </Grid>
-          </MuiThemeProvider>
+          <Grid container justify='center'>
+            <Button
+              style={{
+                // textTransform: 'none',
+                // padding: '1rem 3rem',
+                // textAlign: 'Center',
+                paddingLeft: 40,
+                paddingRight: 40,
+                marginTop: 25,
+              }}
+              size='large'
+              color='primary'
+              variant='contained'
+              onClick={() => navigate('/signin')}
+            >
+              Sign in
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </>

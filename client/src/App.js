@@ -10,6 +10,7 @@ import Quotes from './pages/Quotes'
 import AddQuote from './pages/AddQuote'
 import EditQuote from './pages/EditQuote'
 import Bookmarks from './pages/Bookmarks'
+import Issue from './pages/Issue'
 
 const theme = createTheme({
   palette: {
@@ -61,6 +62,7 @@ function App() {
                 <Route path='signup' element={<SignUp />} />
                 <Route path='add' element={<AddQuote />} />
                 <Route path='bookmarks' element={<Bookmarks />} />
+                <Route path='issue' element={<Issue />} />
                 <Route path='edit/:id' element={<EditQuote />} />
               </Routes>
             </UserContext.Provider>

@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { editQuote } from '../helpers/API/quote'
 import UserContext from '../store/UserContext'
 import {
@@ -20,6 +20,7 @@ import { errMsg, sesExpMsg } from '../helpers/constant'
 import useLogout from '../helpers/hooks/useLogout'
 import MyCard from '../components/MyCard'
 import CenterElement from '../components/CenterElement'
+import useDocTitle from '../helpers/hooks/useDocTitle'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -46,6 +47,11 @@ function EditQuote() {
   const handleLogout = useLogout()
   const [isEditing, setIsEditing] = useState(false)
   const { state } = useLocation()
+  const changeTitle = useDocTitle()
+
+  useEffect(() => {
+    changeTitle('Edit Quote')
+  }, [])
 
   const formik = useFormik({
     initialValues: {
