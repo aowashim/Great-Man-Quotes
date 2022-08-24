@@ -27,7 +27,7 @@ namespace GMQ_Quotes.Controllers
         }
 
         [HttpGet("{id}", Name = "GetQuoteById")]
-        public async Task<ActionResult<Quote>> GetQuoteById(int id)
+        public async Task<IActionResult> GetQuoteById(int id)
         {
             var res = await quoteService.GetQuoteById(id);
 
@@ -36,7 +36,7 @@ namespace GMQ_Quotes.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Quote>> AddQuote(Quote quote)
+        public async Task<IActionResult> AddQuote(Quote quote)
         {
             var res = await quoteService.AddQuote(quote);
 
@@ -46,7 +46,7 @@ namespace GMQ_Quotes.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Quote>> EditQuote(Quote quote)
+        public async Task<IActionResult> EditQuote(Quote quote)
         {
             var res = await quoteService.EditQuote(quote);
 

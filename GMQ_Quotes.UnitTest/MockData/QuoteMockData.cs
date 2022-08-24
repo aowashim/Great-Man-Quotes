@@ -36,5 +36,21 @@ namespace GMQ_Quotes.UnitTest.MockData
                 }
             };
         }
+
+        public static List<Quote>? GetNull()
+        {
+            return null;
+        }
+
+        public static Quote GetOneQuote(bool retFilled = true)
+        {
+            return retFilled ? new Quote
+            {
+                Id = 0,
+                Title = "Title 1",
+                Author = "Author 1",
+                Bookmarks = new List<Bookmark>()
+            } : new Quote();
+        }
     }
 }
