@@ -93,7 +93,7 @@ namespace GMQ_Quotes.UnitTest.Systems.Controllers
 
             result.StatusCode.Should().Be(404);
         }
-        
+
         [Fact]
         public async Task DeleteQuote_ShouldReturn200Status()
         {
@@ -124,6 +124,32 @@ namespace GMQ_Quotes.UnitTest.Systems.Controllers
             var result = (BadRequestResult)await sut.DeleteQuote(id);
 
             result.StatusCode.Should().Be(400);
+        }
+
+        [Fact]
+        public void RaiseIssue_ShouldBeCalledExactlyOnce()
+        {
+            var quoteService = new Mock<IQuoteService>();
+            var sut = new QuotesController(quoteService.Object);
+            var issue = QuoteMockData.GetIssue();
+
+            var result = sut.RaiseIssue(issue);
+
+            quoteService.Verify(_ => _.RaiseIssue(issue), Times.Exactly(1));
+        }
+
+        [Fact]
+        public void RaiseIssue_ShouldReturn200Status()
+        {
+            var issue = QuoteMockData.GetIssue();
+
+            var quoteService = new Mock<IQuoteService>();
+            quoteService.Setup(_ => _.RaiseIssue(issue));
+            var sut = new QuotesController(quoteService.Object);
+
+            var result = (OkResult)sut.RaiseIssue(issue);
+
+            result.StatusCode.Should().Be(200);
         }
     }
 }

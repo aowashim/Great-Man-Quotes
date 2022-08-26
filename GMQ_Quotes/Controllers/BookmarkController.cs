@@ -1,5 +1,4 @@
-﻿using GMQ_Quotes.Data.Models;
-using GMQ_Quotes.Services;
+﻿using GMQ_Quotes.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +17,7 @@ namespace GMQ_Quotes.Controllers
 
         [HttpGet]
         [Authorize(Roles = "User")]
-        public async Task<ActionResult<List<Quote>>> GetAllBookmarks()
+        public async Task<IActionResult> GetAllBookmarks()
         {
             var res = await bookmarkService.GetAllBookmarks();
 

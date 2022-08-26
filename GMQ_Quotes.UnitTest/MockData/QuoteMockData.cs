@@ -1,9 +1,6 @@
-﻿using GMQ_Quotes.Data.Models;
-using System;
+﻿using GMQ_Quotes.Data.DTO;
+using GMQ_Quotes.Data.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GMQ_Quotes.UnitTest.MockData
 {
@@ -51,6 +48,16 @@ namespace GMQ_Quotes.UnitTest.MockData
                 Author = "Author 1",
                 Bookmarks = new List<Bookmark>()
             } : new Quote();
+        }
+
+        public static Issue GetIssue()
+        {
+            return new Issue()
+            {
+                Email = "owa123@gmail.com",
+                Subject = "Subject",
+                Body = "Body"
+            };
         }
     }
 }
