@@ -6,13 +6,15 @@ using MimeKit.Text;
 
 namespace GMQ_Email.Services
 {
-    public class EmailService: IEmailService
+    public class EmailService : IEmailService
     {
         private readonly IConfiguration _config;
+        private readonly ILogger<EmailService> logger;
 
-        public EmailService(IConfiguration config)
+        public EmailService(IConfiguration config, ILogger<EmailService> logger)
         {
             _config = config;
+            this.logger = logger;
         }
 
         public bool SendEmail(Issue issue)
@@ -35,7 +37,7 @@ namespace GMQ_Email.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                logger.LogError(ex.Message);
                 return false;
             }
         }
