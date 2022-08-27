@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import { useContext, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import UserContext from '../store/UserContext'
 import useLogout from '../helpers/hooks/useLogout'
 

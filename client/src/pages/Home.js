@@ -4,13 +4,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { Grid } from '@material-ui/core'
-import Link from '@material-ui/core/Link'
 import Button from '@material-ui/core/Button'
-import {
-  createTheme,
-  responsiveFontSizes,
-  MuiThemeProvider,
-} from '@material-ui/core'
+import { createTheme, responsiveFontSizes } from '@material-ui/core'
 import { Navigate, useNavigate } from 'react-router-dom'
 import UserContext from '../store/UserContext'
 import useDocTitle from '../helpers/hooks/useDocTitle'
