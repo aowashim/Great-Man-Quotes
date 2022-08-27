@@ -9,11 +9,13 @@ namespace GMQ_Quotes.Services
     {
         private readonly AppDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ILogger logger;
 
-        public BookmarkService(AppDbContext context, IHttpContextAccessor httpContextAccessor)
+        public BookmarkService(AppDbContext context, IHttpContextAccessor httpContextAccessor, ILogger<BookmarkService> logger)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
+            this.logger = logger;
         }
 
         public async Task<List<Quote>?> GetAllBookmarks()
@@ -31,8 +33,9 @@ namespace GMQ_Quotes.Services
 
                 return res;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.Message);
                 return null;
             }
         }
@@ -55,8 +58,9 @@ namespace GMQ_Quotes.Services
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.Message);
                 return false;
             }
         }
@@ -69,7 +73,7 @@ namespace GMQ_Quotes.Services
 
                 User user = context.Users.Include(u => u.Bookmarks).Single(u => u.Username == un);
                 Quote quote = context.Quotes.Include(q => q.Bookmarks).Single(q => q.Id == id);
-                
+
                 Bookmark bookmark = user.Bookmarks.Single(b => b.UserUsername == un && b.QuoteId == id);
 
                 user.Bookmarks.Remove(bookmark);
@@ -79,8 +83,9 @@ namespace GMQ_Quotes.Services
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.Message);
                 return false;
             }
         }

@@ -9,11 +9,13 @@ namespace GMQ_Quotes.Services
     {
         private readonly AppDbContext context;
         private readonly IRabbitMQService rabbitMQService;
+        private readonly ILogger<QuoteService> logger;
 
-        public QuoteService(AppDbContext context, IRabbitMQService rabbitMQService)
+        public QuoteService(AppDbContext context, IRabbitMQService rabbitMQService, ILogger<QuoteService> logger)
         {
             this.context = context;
             this.rabbitMQService = rabbitMQService;
+            this.logger = logger;
         }
 
         public async Task<Quote?> AddQuote(Quote quote)
@@ -25,8 +27,9 @@ namespace GMQ_Quotes.Services
 
                 return res.Entity;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.Message);
                 return null;
             }
         }
@@ -38,8 +41,9 @@ namespace GMQ_Quotes.Services
                 var res = await context.Quotes.ToListAsync();
                 return res;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.Message);
                 return null;
             }
         }
@@ -51,8 +55,9 @@ namespace GMQ_Quotes.Services
                 var res = await context.Quotes.FindAsync(id);
                 return res;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.Message);
                 return null;
             }
         }
@@ -62,9 +67,9 @@ namespace GMQ_Quotes.Services
             try
             {
                 Quote? quoteFromDB = await context.Quotes.FindAsync(quote.Id);
-                
+
                 if (quoteFromDB == null) return null;
-                
+
                 quoteFromDB.Title = quote.Title;
                 quoteFromDB.Author = quote.Author;
 
@@ -72,8 +77,9 @@ namespace GMQ_Quotes.Services
 
                 return quoteFromDB;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.Message);
                 return null;
             }
         }
@@ -82,6 +88,7 @@ namespace GMQ_Quotes.Services
         {
             try
             {
+                logger.LogError("****************");
                 Quote? quoteFromDB = await context.Quotes.FindAsync(id);
 
                 if (quoteFromDB == null) return false;
@@ -91,8 +98,9 @@ namespace GMQ_Quotes.Services
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.Message);
                 return false;
             }
         }
