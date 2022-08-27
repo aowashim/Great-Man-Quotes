@@ -14,15 +14,17 @@ namespace AuthService.Services
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ILogger<UserService> logger;
 
         public UserService(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager, IConfiguration configuration,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager, ILogger<UserService> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
             _roleManager = roleManager;
+            this.logger = logger;
         }
 
         public async Task<IdentityResult> SignUpAsync(SignUp signUpModel)
@@ -41,8 +43,9 @@ namespace AuthService.Services
 
                 return res;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.Message);
                 return IdentityResult.Failed();
             }
         }
@@ -76,8 +79,9 @@ namespace AuthService.Services
 
                 return new LoginReturn { Token = res, Type = role[0] };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex.Message);
                 return null;
             }
         }
@@ -92,6 +96,7 @@ namespace AuthService.Services
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
                 return new Tuple<bool, string>(false, ex.Message);
             }
         }
