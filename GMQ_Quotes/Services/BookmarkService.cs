@@ -24,12 +24,8 @@ namespace GMQ_Quotes.Services
             {
                 string un = GetUsername()!;
 
-                User user = context.Users.Include(x => x.Bookmarks).Single(u => u.Username == un);
-                List<Bookmark> bookmarks = user.Bookmarks;
-
-                List<Quote> quotes = await context.Quotes.ToListAsync();
-                List<Quote> res = quotes.Join(bookmarks, q => q.Id, b => b.QuoteId, (q, b) => q)
-                    .Select(q => new Quote { Id = q.Id, Title = q.Title, Author = q.Author }).ToList();
+                List<Quote> res = await context.Bookmarks.Where(b => b.UserUsername == un)
+                    .Join(context.Quotes, b => b.QuoteId, q => q.Id, (b, q) => q).ToListAsync();
 
                 return res;
             }
