@@ -13,5 +13,6 @@ namespace GMQ_Quotes.Data.Models
 
         [Required]
         public int QuoteId { get; set; }
+        public Quote Quote { get; set; } = new Quote();
     }
 }

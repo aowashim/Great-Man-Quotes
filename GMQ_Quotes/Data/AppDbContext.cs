@@ -11,6 +11,5 @@ namespace GMQ_Quotes.Data
 
         public DbSet<User> Users => Set<User>();
         public DbSet<Quote> Quotes => Set<Quote>();
-        public DbSet<Bookmark> Bookmarks => Set<Bookmark>();
     }
 }

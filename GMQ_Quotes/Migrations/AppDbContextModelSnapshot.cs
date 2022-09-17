@@ -43,7 +43,7 @@ namespace GMQ_Quotes.Migrations
                     b.HasIndex("UserUsername", "QuoteId")
                         .IsUnique();
 
-                    b.ToTable("Bookmarks");
+                    b.ToTable("Bookmark", (string)null);
                 });
 
             modelBuilder.Entity("GMQ_Quotes.Data.Models.Quote", b =>
@@ -66,7 +66,7 @@ namespace GMQ_Quotes.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Quotes");
+                    b.ToTable("Quotes", (string)null);
                 });
 
             modelBuilder.Entity("GMQ_Quotes.Data.Models.User", b =>
@@ -86,7 +86,7 @@ namespace GMQ_Quotes.Migrations
 
                     b.HasKey("Username");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("GMQ_Quotes.Data.Models.Bookmark", b =>

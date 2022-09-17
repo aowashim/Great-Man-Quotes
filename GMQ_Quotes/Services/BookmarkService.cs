@@ -24,10 +24,10 @@ namespace GMQ_Quotes.Services
             {
                 string un = GetUsername()!;
 
-                List<Quote> res = await context.Bookmarks.Where(b => b.UserUsername == un)
-                    .Join(context.Quotes, b => b.QuoteId, q => q.Id, (b, q) => q).ToListAsync();
+                // List<Quote> res = await context.Bookmarks.Where(b => b.UserUsername == un)
+                //     .Join(context.Quotes, b => b.QuoteId, q => q.Id, (b, q) => q).ToListAsync();
 
-                return res;
+                return null;
             }
             catch (Exception ex)
             {
